@@ -40,5 +40,6 @@ We tested our method using some of the datasets available in https://www.cs.ucr.
 <a id="1">[1]</a> 
 K. Bountrogiannis, G. Tzagkarakis, P. Tsakalides, “Data-driven Kernel-based Probabilistic SAX for Time Series Dimensionality Reduction”, 
 https://www.researchgate.net/publication/344173000_Data-driven_Kernel-based_Probabilistic_SAX_for_Time_Series_Dimensionality_Reduction
+
 <a id="2">[2]</a> 
 J. Lin et al., “Experiencing SAX: A novel symbolic representation of time series”, Data Min. Knowl. Disc., vol. 15, no. 2, pp. 107–144, 2007
