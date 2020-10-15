@@ -9,7 +9,7 @@ pSAX necessary files and demo script
 
 
 ## Introduction <a name="introduction"></a>
-The pSAX (Kernel-based Probabilistic SAX) method is an extension of the well-known SAX [[2]](#2). (Symbolic Aggregate Approximation) for time-series dimensionality reduction. The main contribution of the method is a SAX-based representation that adapts directly to the underlying probability distribution of the time-series data, thus providing a more accurate symbolic approximation. The accuracy has been measured and compared to the conventional SAX with the (significant for the indexing community) Tightness of Lower Bound metric, but also with the Mean Squared Error.
+The pSAX (Kernel-based Probabilistic SAX) [[1]](#1) method is an extension of the well-known SAX [[2]](#2). (Symbolic Aggregate Approximation) for time-series dimensionality reduction. The main contribution of the method is a SAX-based representation that adapts directly to the underlying probability distribution of the time-series data, thus providing a more accurate symbolic approximation. The accuracy has been measured and compared to the conventional SAX with the (significant for the indexing community) Tightness of Lower Bound metric, but also with the Mean Squared Error.
 
 
 ## Files Description <a name="files"></a>
