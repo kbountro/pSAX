@@ -5,28 +5,37 @@ pSAX necessary files and demo script
 1. [Introduction](#introduction)
 2. [Modules Description](#files)
 3. [Datasets](#datasets)
-4. [Installation Instructions](#execution)
+4. [Installation and Execution Instructions](#execution)
+
 
 ## Introduction <a name="introduction"></a>
-The pSAX (Kernel-based Probabilistic SAX) method is an extension of the well-known SAX (Symbolic Aggregate Approximation) for time-series dimensionality reduction. The main contribution of the method is a SAX-based representation that adapts directly to the underlying probability distribution of the time-series data, thus providing a more accurate symbolic approximation. The accuracy has been measured and compared to the conventional SAX with the (significant for the indexing community) Tightness of Lower Bound metric, but also with the Mean Squared Error.
+The pSAX (Kernel-based Probabilistic SAX) method is an extension of the well-known SAX [[1]](#1). (Symbolic Aggregate Approximation) for time-series dimensionality reduction. The main contribution of the method is a SAX-based representation that adapts directly to the underlying probability distribution of the time-series data, thus providing a more accurate symbolic approximation. The accuracy has been measured and compared to the conventional SAX with the (significant for the indexing community) Tightness of Lower Bound metric, but also with the Mean Squared Error.
 
 
 ## Files Description <a name="files"></a>
 This project consists of the following components:
 
-* **Tensor:** Class for the construction and management of 3D data structures (the tensors).
-* **TMacPar:** Class for reconstructing low-rank tensor measurements using the TMac algorithm.
-* **Matlab:** Class that provides useful mathematical functions, operations in three-dimensional structures, as well as type conversion between its various mathematical libraries.
-* **IO:**  Class for reading and writing .csv files. Methods of this class are used to record the reconstruction results in the res\ folder, for post-processing evaluation purposes.
-* **Main:** Class that includes the functions for executing TC in predefined data, as well as a function for user-defined data reconstruction.
+* **demo:** Demo script (check below(#execution) how to use). The code performs Monte-Carlo experiments for pSAX and SAX and then plots their Tightness of Lower Bound and Mean Squared Error. Each iteration consists of a comparison between a random "test" (target) subsequence from the dataset and another random "query" subsequence from the dataset.
+* **tsPAA:** Time-series to PAA approximation. The PAA segments are single points (that is, the output in not really "segments", but the the values of the segments).
+* **timeseries2symbol:** (c) 2003, Eamonn Keogh, Jessica Lin, Stefano Lonardi, Pranav Patel, Li Wei. Computes SAX representation of the data. The output are integer numbers, but should be seen as "symbols", not numbers.
+* **min_paa_dist:**  Computes the lower-bounding distance, as defined in [[1]](#1).
+* **plot_SAX:** Plots the SAX sequence against the raw time-series. Each symbol is plotted as a segment, with length equal to the PAA segment it was used. Also plots the estimated density function of the data and the "breakpoints" that are used to assign symbols to the PAA segments.
+* **mvksdensity, statskcompute, statskernelinfo:** These are MATLAB's files (c) 2015-2016 The MathWorks, Inc. They are called from the built-in function 'ksdensity'. We tweaked them to i) allow to train from arbitrarily large number of samples (it was limited to 100 samples before) and ii) to fix the optimal smoothness parameter estimation for the Epanechnikov kernel, as it was set for the Gaussian kernel only. See https://www.mathworks.com/help/stats/ksdensity.html for more info.
+* **lloydmax:** Lloyd-Max quantizer. Quantize according to a probability density function.
+* **k-means++:** The k-means++ algorithm for initialization of k-means. Taken from the k-means file of Laurent S.: (https://www.mathworks.com/matlabcentral/fileexchange/28804-k-means), version 1.7.0.0
 
 
 ## Datasets <a name="datasets"></a>
 We tested our method using some of the datasets available in https://www.cs.ucr.edu/~eamonn/iSAX/iSAX.html
 
 
-## Installation Instructions <a name="execution"></a>
+## Installation and Execution Instructions <a name="execution"></a>
 1. Download the project's source files.
 2. Export as they are to a single folder.
-3. Call sax_demo.m with MATLAB (it has been tested with versions 2018b and later).
+3. Open MATLAB and load any 1D dataset. You should name the data variable as 'data'.
+4. Call demo.m
 
+
+## References
+<a id="1">[1]</a> 
+J. Lin et al., “Experiencing SAX: A novel symbolic representation of time series”, Data Min. Knowl. Disc., vol. 15, no. 2, pp. 107–144, 2007
