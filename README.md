@@ -9,7 +9,7 @@ pSAX necessary files and demo script
 
 
 ## Introduction <a name="introduction"></a>
-The pSAX (Kernel-based Probabilistic SAX) method is an extension of the well-known SAX [[1]](#1). (Symbolic Aggregate Approximation) for time-series dimensionality reduction. The main contribution of the method is a SAX-based representation that adapts directly to the underlying probability distribution of the time-series data, thus providing a more accurate symbolic approximation. The accuracy has been measured and compared to the conventional SAX with the (significant for the indexing community) Tightness of Lower Bound metric, but also with the Mean Squared Error.
+The pSAX (Kernel-based Probabilistic SAX) method is an extension of the well-known SAX [[2]](#2). (Symbolic Aggregate Approximation) for time-series dimensionality reduction. The main contribution of the method is a SAX-based representation that adapts directly to the underlying probability distribution of the time-series data, thus providing a more accurate symbolic approximation. The accuracy has been measured and compared to the conventional SAX with the (significant for the indexing community) Tightness of Lower Bound metric, but also with the Mean Squared Error.
 
 
 ## Files Description <a name="files"></a>
@@ -18,7 +18,7 @@ This project consists of the following components:
 * **demo:** Demo script (check below(#execution) how to use). The code performs Monte-Carlo experiments for pSAX and SAX and then plots their Tightness of Lower Bound and Mean Squared Error. Each iteration consists of a comparison between a random "test" (target) subsequence from the dataset and another random "query" subsequence from the dataset.
 * **tsPAA:** Time-series to PAA approximation. The PAA segments are single points (that is, the output in not really "segments", but the the values of the segments).
 * **timeseries2symbol:** (c) 2003, Eamonn Keogh, Jessica Lin, Stefano Lonardi, Pranav Patel, Li Wei. Computes SAX representation of the data. The output are integer numbers, but should be seen as "symbols", not numbers.
-* **min_paa_dist:**  Computes the lower-bounding distance, as defined in [[1]](#1).
+* **min_paa_dist:**  Computes the lower-bounding distance, as defined in [[2]](#2).
 * **plot_SAX:** Plots the SAX sequence against the raw time-series. Each symbol is plotted as a segment, with length equal to the PAA segment it was used. Also plots the estimated density function of the data and the "breakpoints" that are used to assign symbols to the PAA segments.
 * **mvksdensity, statskcompute, statskernelinfo:** These are MATLAB's files (c) 2015-2016 The MathWorks, Inc. They are called from the built-in function 'ksdensity'. We tweaked them to i) allow to train from arbitrarily large number of samples (it was limited to 100 samples before) and ii) to fix the optimal smoothness parameter estimation for the Epanechnikov kernel, as it was set for the Gaussian kernel only. See https://www.mathworks.com/help/stats/ksdensity.html for more info.
 * **lloydmax:** Lloyd-Max quantizer. Quantize according to a probability density function.
@@ -38,4 +38,7 @@ We tested our method using some of the datasets available in https://www.cs.ucr.
 
 ## References
 <a id="1">[1]</a> 
+K. Bountrogiannis, G. Tzagkarakis, P. Tsakalides, “Data-driven Kernel-based Probabilistic SAX for Time Series Dimensionality Reduction”, 
+https://www.researchgate.net/publication/344173000_Data-driven_Kernel-based_Probabilistic_SAX_for_Time_Series_Dimensionality_Reduction
+<a id="2">[2]</a> 
 J. Lin et al., “Experiencing SAX: A novel symbolic representation of time series”, Data Min. Knowl. Disc., vol. 15, no. 2, pp. 107–144, 2007
