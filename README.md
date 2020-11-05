@@ -15,7 +15,7 @@ The pSAX (Kernel-based Probabilistic SAX) [[1]](#1) method is an extension of th
 ## Files Description <a name="files"></a>
 This project consists of the following components:
 
-* **demo:** Demo script (check below(#execution) how to use). The code performs Monte-Carlo experiments for pSAX and SAX and then plots their Tightness of Lower Bound and Mean Squared Error. Each iteration consists of a comparison between a random "test" (target) subsequence from the dataset and another random "query" subsequence from the dataset.
+* **demo:** Demo script (check [below](#execution) how to use). The code performs Monte-Carlo experiments for pSAX and SAX and then plots their Tightness of Lower Bound and Mean Squared Error. Each iteration consists of a comparison between a random "test" (target) subsequence from the dataset and another random "query" subsequence from the dataset.
 * **tsPAA:** Time-series to PAA approximation. The PAA segments are single points (that is, the output in not really "segments", but the the values of the segments).
 * **timeseries2symbol:** (c) 2003, Eamonn Keogh, Jessica Lin, Stefano Lonardi, Pranav Patel, Li Wei. Computes SAX representation of the data. The output are integer numbers, but should be seen as "symbols", not numbers.
 * **min_paa_dist:**  Computes the lower-bounding distance, as defined in [[2]](#2).
