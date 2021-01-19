@@ -1,5 +1,5 @@
 # pSAX
-Algorithm and scripts to implement the Kernel-based Probabilistic SAX method
+Algorithm and scripts to implement the pSAX (kernel-based probabilistic SAX) method
 
 # Table of Contents
 1. [Introduction](#introduction)
@@ -43,7 +43,7 @@ K. Bountrogiannis, G. Tzagkarakis and P. Tsakalides, "Data-driven Kernel-based P
 <a id="2">[2]</a> 
 J. Lin et al., “Experiencing SAX: A novel symbolic representation of time series”, Data Min. Knowl. Disc., vol. 15, no. 2, pp. 107–144, 2007
 
-## LICENSE
+## License
 **This source code can be used for non-commercial purposes only. Its utilization must acknowledge and cite the following publication:**
 
 K. Bountrogiannis, G. Tzagkarakis and P. Tsakalides, "Data-driven Kernel-based Probabilistic SAX for Time Series Dimensionality Reduction," 2020 28th European Signal Processing Conference (EUSIPCO), Amsterdam, 2021, pp. 2343-2347, doi: 10.23919/Eusipco47968.2020.9287311. 
