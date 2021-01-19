@@ -26,7 +26,7 @@ This project consists of the following components:
 
 
 ## Datasets <a name="datasets"></a>
-We tested our method using some of the datasets available in https://www.cs.ucr.edu/~eamonn/iSAX/iSAX.html
+A large collection of datasets is available in https://www.cs.ucr.edu/~eamonn/iSAX/iSAX.html
 
 
 ## Installation and Execution Instructions <a name="execution"></a>
