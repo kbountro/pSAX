@@ -1,5 +1,5 @@
 # pSAX
-Source code of the pSAX (kernel-based probabilistic SAX) time-series symbolic representation
+MATLAB implementation of the pSAX (kernel-based probabilistic SAX) time-series symbolic representation
 
 # Table of Contents
 1. [Introduction](#introduction)
@@ -18,7 +18,7 @@ This project consists of the following components:
 * **pSAX:** Main file.
 * **tsPAA:** (c) 2003, Eamonn Keogh, Jessica Lin, Stefano Lonardi, Pranav Patel, Li Wei. Time-series to PAA approximation.
 * **timeseries2symbol:** (c) 2003, Eamonn Keogh, Jessica Lin, Stefano Lonardi, Pranav Patel, Li Wei. Computes SAX representation of the data. The output are integer numbers.
-* **mvksdensity, statskcompute, statskernelinfo:** These are MATLAB's files (c) 2015-2016 The MathWorks, Inc. They are called from the built-in function 'ksdensity'. We tweaked them to i) allow to train from arbitrarily large number of samples (it was limited to 100 samples before) and ii) to fix the optimal smoothness parameter estimation for the Epanechnikov kernel, as it was set for the Gaussian kernel only. See https://www.mathworks.com/help/stats/ksdensity.html for more info.
+* **mvksdensity, statskcompute, statskernelinfo:** These are MATLAB's source files, (c) 2015-2016 The MathWorks, Inc. They are called from the built-in function 'ksdensity'. We tweaked them to i) allow to estimate arbitrarily large number of density points (it was limited to 100 before) and ii) to fix the optimal smoothness parameter estimation for the Epanechnikov kernel, as it was set for the Gaussian kernel only. See https://www.mathworks.com/help/stats/ksdensity.html for more info.
 * **lloydmax:** Lloyd-Max quantizer. Quantize according to a probability density function.
 * **k-means++:** The k-means++ algorithm for initialization of k-means. Taken from the k-means file of Laurent S.: (https://www.mathworks.com/matlabcentral/fileexchange/28804-k-means), version 1.7.0.0
 
@@ -44,7 +44,7 @@ K. Bountrogiannis, G. Tzagkarakis and P. Tsakalides, "Distribution Agnostic Symb
 J. Lin et al., “Experiencing SAX: A novel symbolic representation of time series”, Data Min. Knowl. Disc., vol. 15, no. 2, pp. 107–144, 2007, doi: 10.1007/s10618-007-0064-z
 
 ## License
-**This source code can be used for non-commercial purposes only. Its utilization must acknowledge and cite the following publications:**
+**This code can be used for non-commercial purposes only. Its utilization must acknowledge and cite the following publications:**
 
 K. Bountrogiannis, G. Tzagkarakis and P. Tsakalides, "Data-driven Kernel-based Probabilistic SAX for Time Series Dimensionality Reduction," 2020 28th European Signal Processing Conference (EUSIPCO), Amsterdam, 2021, pp. 2343-2347, doi: 10.23919/Eusipco47968.2020.9287311.
 
