@@ -15,9 +15,10 @@ The pSAX (Kernel-based Probabilistic SAX) [[1]](#1), [[2]](#2) method is an exte
 ## Files Description <a name="files"></a>
 This project consists of the following components:
 
-* **pSAX:** Main file.
+* **pSAX:** Main function.
 * **tsPAA:** (c) 2003, Eamonn Keogh, Jessica Lin, Stefano Lonardi, Pranav Patel, Li Wei. Time-series to PAA approximation.
 * **timeseries2symbol:** (c) 2003, Eamonn Keogh, Jessica Lin, Stefano Lonardi, Pranav Patel, Li Wei. Computes SAX representation of the data. The output are integer numbers.
+* **map_to_string:** Discretization of PAA sequence with the custom quantization intervals.
 * **mvksdensity, statskcompute, statskernelinfo:** These are MATLAB's source files, (c) 2015-2016 The MathWorks, Inc. They are called from the built-in function 'ksdensity'. We tweaked them to i) allow to estimate arbitrarily large number of density points (it was limited to 100 before) and ii) to fix the optimal smoothness parameter estimation for the Epanechnikov kernel, as it was set for the Gaussian kernel only. See https://www.mathworks.com/help/stats/ksdensity.html for more info.
 * **lloydmax:** Lloyd-Max quantizer. Quantize according to a probability density function.
 * **k-means++:** The k-means++ algorithm for initialization of k-means. Taken from the k-means file of Laurent S.: (https://www.mathworks.com/matlabcentral/fileexchange/28804-k-means), version 1.7.0.0
