@@ -1,5 +1,5 @@
 # pSAX
-Algorithm and scripts to implement the pSAX (kernel-based probabilistic SAX) method
+Source code of the pSAX (kernel-based probabilistic SAX) time-series symbolic representation
 
 # Table of Contents
 1. [Introduction](#introduction)
