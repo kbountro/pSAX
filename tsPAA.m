@@ -33,27 +33,28 @@ function PAA = tsPAA(data,n)
 
 N = length(data);
 win_size = floor(N/n);
+d = min(size(data));
 
 % Take care of the special case where there is no dimensionality reduction
 if N == n
     PAA = data;
 
 else
-    % N is not dividable by n
-    if (N/n - floor(N/n)) %#ok<*BDLOG>
-        temp = zeros(n, N);
-        for j = 1 : n
-            temp(j, :) = data;
+        % N is not dividable by n
+        if (N/n - floor(N/n)) %#ok<*BDLOG>
+            temp = zeros(n, N);
+            for j = 1 : n
+                temp(j, :) = data;
+            end
+            expanded_data = reshape(temp, 1, N*n);
+            PAA = mean(reshape(expanded_data, N, n));
+        % N is dividable by n
+        else
+            PAA_temp = reshape(data,win_size,n);
+            PAA = mean(PAA_temp);
+    %         [~,maxidx] = max(abs(PAA),[],'linear');
+    %         PAA = PAA(maxidx);
         end
-        expanded_data = reshape(temp, 1, N*n);
-        PAA = mean(reshape(expanded_data, N, n));
-    % N is dividable by n
-    else
-        PAA_temp = reshape(data,win_size,n);
-        PAA = mean(PAA_temp);
-%         [~,maxidx] = max(abs(PAA),[],'linear');
-%         PAA = PAA(maxidx);
-    end
 end
 
 end

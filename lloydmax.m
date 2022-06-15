@@ -1,39 +1,30 @@
 function [C,b] = lloydmax(f,x,ncodewords,data,init,lock_bounds)
 % Quantization using Lloyd-Max quantizer.
-% Inputs:   f(x): density function
-%           init: Initialization. Either initial bounds or initial
-%           codewords. Can be empty.
-%           lock_bounds: Locks initial bounds and optimizes only codewords.
-%           Effectively, it computes the centroids of the given bounds.
+% Inputs:   f: pdf
+%           x: data
+%           init: Initialization. Either initial bounds or initial codewords. Can be empty.
+%           lock_bounds: (0 or 1). Locks initial bounds and optimizes only codewords.
+%                        Efffectively, it computes the centroids of the given bounds. 
+%                        Normally, this is set to 0.
 %           
-% Output:   C: codewords
-%           b: boundaries that define the partition
+% Output:   C: Codeword values
+%           b: boundaries of quantization intervals
 %
 % Author: Konstantinos Bountrogiannis
 % Contact: kbountrogiannis@gmail.com
-% Date: July 2020
+% Date: June 2022
 
-    if nargin<6 || isempty(lock_bounds)
+    if nargin<6
         lock_bounds = 0;
     end
     
     %% Initialization
-    
-    d = min(size(x));
-    
-    % Fix dimensions of 'f' and 'x'
-    if d>1
-        f = f(:)';
-        for k = 1:d
-            % first clear x to reset its dimensions
-            if k==1, x_temp = x; clear x; end
-            x(k,:) = x_temp(:,k);
-        end
-        clear x_temp;
-    end
+    tol = 1e-7;
+    tol2 = eps*(max(x)-min(x));
     
     % Determine 'initial' input
-    if ~isempty(init)
+    C = [];
+    if nargin>4
         if length(init) == ncodewords
             init_bounds = 0;
             init_codebook = 1;
@@ -60,6 +51,7 @@ function [C,b] = lloydmax(f,x,ncodewords,data,init,lock_bounds)
     if ~init_codebook && ~isempty(data)
         % k-means++ initialization.
         [~,C] = kmeanspp(data,ncodewords);
+        C = sort(C);
     end
     prev_C = zeros(1,ncodewords);
     prev_b = zeros(1,ncodewords-1);
@@ -68,6 +60,7 @@ function [C,b] = lloydmax(f,x,ncodewords,data,init,lock_bounds)
     
     stop = 0;
     iter = 0;
+    if isempty(C), C = mod(x(1)+(x(end)-x(1))*rand(1,2),x(end)); end
     while ~stop && iter<100
         if (iter>1 || ~init_bounds) && ~lock_bounds
             b = (C(1:1:end-1)+C(2:1:end))/2;
@@ -85,7 +78,7 @@ function [C,b] = lloydmax(f,x,ncodewords,data,init,lock_bounds)
                 otherwise
                     [~,b1] = min(abs(b(i-1)-x));
                     [~,b2] = min(abs(b(i)-x));
-                    if b2 == b1 % Bounds must not coincide
+                    if b2 <= b1 % Bounds must not be in reverse order
                         if b1>1
                             b1 = b2-1;
                         elseif b2<length(x)
@@ -94,6 +87,7 @@ function [C,b] = lloydmax(f,x,ncodewords,data,init,lock_bounds)
                     end
             end
     
+            b2 = min(length(x),b2); % this activates only when length(x)==1
             I1 = trapz(x(b1:b2),x(b1:b2).*f(b1:b2),2);
             I2 = trapz(x(b1:b2),f(b1:b2),2);
             C(i) = I1/I2;
@@ -108,7 +102,14 @@ function [C,b] = lloydmax(f,x,ncodewords,data,init,lock_bounds)
             end
         end
 
-        stop = all(prev_C==C) && all(prev_b==b);
+%         stop = sum(all(prev_C==C)) && sum(all(prev_b==b));
+        move = mean(abs(prev_C-C));
+        if move > tol2
+            rel_dist = move/mean(abs(C));
+        else
+            rel_dist = move;
+        end
+        stop = rel_dist<tol && rel_dist<tol2;
         
         prev_b = b;
         prev_C = C;

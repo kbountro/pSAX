@@ -1,3 +1,16 @@
+% This is MATLAB's source file for kernel density estimation.
+%
+% I have only modified the part that computes the optimal bandwidth for the 
+% Epanechnikov kernel, since the default was only for the Gaussian kernel. 
+% The bandwidth is computed in lines 343-356.
+%
+% Another minor change is the estimation of the data standard deviation,
+% which is now done with a different method, in line 325.
+%
+% Author: Konstantinos Bountrogiannis
+% Contact: kbountrogiannis@gmail.com
+% Date: June 2022
+
 function [fout,xout,u,plottype] = mvksdensity(yData,varargin)
 %MVKSDENSITY Compute multivariate kernel density estimate
 %   F = MVKSDENSITY(X,XI,'Bandwidth',BW) computes a probability density
@@ -76,10 +89,6 @@ function [fout,xout,u,plottype] = mvksdensity(yData,varargin)
 %   See also KSDENSITY, MESHGRID, NDGRID.
 
 %   Copyright 2015-2016 The MathWorks, Inc.
-
-% Edited by Konstantinos Bountrogiannis to allow training by
-% arbitrarily large number of samples and fixed optimal
-% smoothness parameter estimation for Epanechnikov kernel.
 
 if nargin > 1
     [varargin{:}] = convertStringsToChars(varargin{:});
@@ -317,8 +326,9 @@ if isempty(u)
         error(message('stats:mvksdensity:BadBandwidth',d));
     else
         if ~iscensored
-            % Get a robust estimate of sigma
-            sig = mad(ty,1,1) / 0.6745;
+%             % Get a robust estimate of sigma
+%             sig = mad(ty,1,1) / 0.6745;
+            sig = min(std(ty,0,1),iqr(ty)/1.34);
         else
             % Estimate sigma using quantiles from the empirical cdf
             Xquant = interp1(F,XF,[.25 .5 .75]);
@@ -338,23 +348,21 @@ if isempty(u)
             sig(idx) = max(ty(:,idx),[],1)-min(ty(:,idx),[],1);
         end
         if sig>0
-            % Default window parameter is optimal for normal distribution
-            % Scott's rule
-            if strcmp(kernelname,'epanechnikov') || strcmp(kernelname,'Epanechnikov')
+            % Silverman's method for optimal bandwidth
+            if strcmpi(kernelname,'epanechnikov')
 %                 R = 3/5;
 %                 k2 = 1/5;
 %                 nu = 2; % second order kernel
 %                 C = 2*((pi^(1/2)*factorial(nu)^3*R)/(2*nu*factorial(2*nu)*k2^2))^(1/(2*nu+1));
-                C = 2.3449; % This is the result of the above calculations
-            else % kernelname=='normal' || kernelname=='Normal'
+                C = 2.3449;
+            else % strcmpi(kernelname,'normal')
 %                 R = 1/(2*sqrt(pi));
 %                 k2 = 1;
 %                 nu = 2; % second order kernel
-                C = 1.0592; % This is the result of the above calculations
+%                 C = 2*((pi^(1/2)*factorial(nu)^3*R)/(2*nu*factorial(2*nu)*k2^2))^(1/(2*nu+1));
+                C = 1.0592;
             end
-%             u = sig*C*N^(-1/(2*nu+1))
             u = sig*C*N^(-1/5);
-            u = 0.3*u; % for many cases, the estimated parameter is rather high. We reduce it by a scale.
         else
             u = ones(1,d);
         end
