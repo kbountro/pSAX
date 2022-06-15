@@ -1,5 +1,5 @@
-# pSAX
-MATLAB implementation of the pSAX (kernel-based probabilistic SAX) time-series symbolic representation
+# Kernel-based probabilistic SAX (pSAX)
+MATLAB implementation of the pSAX time-series symbolic representation.
 
 # Table of Contents
 1. [Introduction](#introduction)
@@ -44,7 +44,7 @@ K. Bountrogiannis, G. Tzagkarakis and P. Tsakalides, "Distribution Agnostic Symb
 J. Lin et al., “Experiencing SAX: A novel symbolic representation of time series”, Data Min. Knowl. Disc., vol. 15, no. 2, pp. 107–144, 2007, doi: 10.1007/s10618-007-0064-z
 
 ## License
-**This code can be used for non-commercial purposes only. Its utilization must acknowledge and cite the following publications:**
+**This code is released under GPL v.3.0. If you use this code for academic works, please cite at least one of the following publications:**
 
 K. Bountrogiannis, G. Tzagkarakis and P. Tsakalides, "Data-driven Kernel-based Probabilistic SAX for Time Series Dimensionality Reduction," 2020 28th European Signal Processing Conference (EUSIPCO), Amsterdam, 2021, pp. 2343-2347, doi: 10.23919/Eusipco47968.2020.9287311.
 
