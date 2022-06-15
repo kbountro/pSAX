@@ -59,19 +59,16 @@
 % 
 %
 % Copyright (c) 2003, Eamonn Keogh, Jessica Lin, Stefano Lonardi, Pranav Patel, Li Wei.  All rights reserved.
-%
-% Edited by Konstantinos Bountrogiannis to include the case of
-% multi-dimensional data.
+
+
 function [symbolic_data, pointers] =  timeseries2symbol(data, N, n, cutlines, normalize, NR_opt)
 
 if nargin < 4
-    disp('usage: timeseries2symbol(data, window_len, num_segment, alphabet_size, [normalize_data_option], [numerosity_reduction_option]');
+    disp('usage: timeseries2symbol(data, window_len, num_segment, cutlines, [normalize_data_option], [numerosity_reduction_option]');
     return;
 end
 
-%if (N/n - floor(N/n))                       % N/n must be an integer
-%    disp('N/n must be an integer. Aborting '); , return;  
-%end; 
+norm_thresh = 0.001;
 
 if nargin < 6
     NR_opt = 2;
@@ -81,48 +78,47 @@ if nargin < 5
 end
 
 win_size = floor(N/n);                      % win_size is the number of data points on the raw time series that will be mapped to a single symbol
-d = min(size(data));    % Dimensionality of data. Almost everything here works for d=1 only...
 data_len = max(size(data));
 
 pointers      = [];                         % Initialize pointers
 sliding_win_num = data_len - (N -1);
-symbolic_data = zeros(d,sliding_win_num,n);	% Initialize symbolic_data with a void string, it will be removed later
-all_string    = zeros(d,data_len-N+1,n);	%#ok<*NASGU>
+symbolic_data = zeros(data_len - (N -1),n);	% Initialize symbolic_data with a void string, it will be removed later
+all_string    = zeros(data_len-N+1,n);	%#ok<*NASGU>
 
 % Scan accross the time series, extract subsequences, and convert them to strings
-for i = 1 : data_len - (N -1)                                       
-    
-    if mod(i, 1000) == 0
-        disp(num2str(i));
-    end
-    
-    % Scan across the dimensions of the data
-    for k = 1:d
+j = 0;
+for i = 1 : data_len - (N -1)
         
         % Remove the current subsection of the current dimension
-        sub_section = data(k,i:i + N -1); 
+        sub_section = data(i:i + N -1); 
     
         % Z-normalize it
         if normalize == 1
-            sub_section = (sub_section - mean(sub_section))/std(sub_section);
+            sub_section_mean = mean(sub_section);
+            sub_section_std = std(sub_section);
+            if sub_section_std>norm_thresh
+                sub_section = (sub_section - sub_section_mean)/sub_section_std;
+            else
+                sub_section = sub_section - sub_section_mean;
+            end
         end
     
-        % Take care of the special case where there is no dimensionality reduction
-        PAA(k,:) = tsPAA(data,n);
+        PAA = tsPAA(sub_section,n);
     
-        current_string = map_to_string(PAA(k,:),cutlines); % Convert the PAA to a string
+        current_string = map_to_string(PAA,cutlines); % Convert the PAA to a string
 
-        cur_str(1,:,:) = current_string;
         % No numerosity reduction: record everything
         if NR_opt == 1
-            symbolic_data	= cat(2,symbolic_data(d,:,:),cur_str);     %#ok<*AGROW> % ... add it to the set...
-            pointers	= [pointers ; i];                                   % ... and add a new pointer
+            j = j+1;
+            symbolic_data(j,:)	= current_string;     %#ok<*AGROW> % ... add it to the set...
+            pointers(j)	= i;                                   % ... and add a new pointer
 
         % With numerosity reduction: record a string only if it differs from its leftmost neighbor
         elseif NR_opt == 2        
-            if ~all(current_string == symbolic_data(d,end,:))             % If the string differs from its leftmost neighbor...
-                symbolic_data	= cat(2,symbolic_data(d,:,:),cur_str);     % ... add it to the set...
-                pointers         = [pointers ; i];                      % ... and add a new pointer
+            if ~all(current_string == symbolic_data(end,:))             % If the string differs from its leftmost neighbor...
+                j = j+1;
+                symbolic_data(j,:)	= current_string;     % ... add it to the set...
+                pointers(j)        = i;                      % ... and add a new pointer
             end
 
         % Advanced numerosity reduction: record a string only if its mindist to the last recorded
@@ -130,21 +126,23 @@ for i = 1 : data_len - (N -1)
         elseif NR_opt == 3
             % always record the first string
             if i == 1
-                symbolic_data	= cat(2,symbolic_data(d,:,:),cur_str);     % ... add it to the set...
-                pointers         = [pointers ; i];                      % ... and add a new pointer
+                j = j+1;
+                symbolic_data(j,:)	=  current_string;     % ... add it to the set...
+                pointers(j)         = i;                      % ... and add a new pointer
 
             % subsequent strings
             else            
                 % we only need to check if two sliding windows have different strings (if they are
                 % the same then their mindist is 0)
-                if ~all(current_string == symbolic_data(d,end,:))            % If the string differs from its leftmost neighbor...                    
+                if ~all(current_string == symbolic_data(end,:))            % If the string differs from its leftmost neighbor...                    
                     % Here we're doing a simplified version of mindist. Since we're only interested
                     % in knowing if the distance of two strings is 0, we can do so without any extra
                     % computation. Since only adjacent symbols have distance 0, all we have to
                     % do is check if any two symbols are non-adjacent
-                    if any(abs(symbolic_data(d,end,:) - current_string) > 1)
-                        symbolic_data	= cat(2,symbolic_data(d,:,:),cur_str);     % ... add it to the set...
-                        pointers         = [pointers ; i];                      % ... and add a new pointer
+                    if any(abs(symbolic_data(end,:) - current_string) > 1)
+                        j = j+1;
+                        symbolic_data(j,:)	=  current_string;     % ... add it to the set...
+                        pointers(j)         = i;                      % ... and add a new pointer
                     end
                 end
             end
@@ -154,33 +152,18 @@ for i = 1 : data_len - (N -1)
 
             % we only need to check if two sliding windows have different strings (if they are
             % the same then their mindist is 0)
-            if ~all(current_string == symbolic_data(d,end,:))            % If the string differs from its leftmost neighbor...        
-                if any(abs(symbolic_data(d,end,:) - current_string) > 1)
+            if ~all(current_string == symbolic_data(end,:))            % If the string differs from its leftmost neighbor...        
+                if any(abs(symbolic_data(end,:) - current_string) > 1)
                     if ~all(sign(diff(current_string)) >= 0) && ~all(sign(diff(current_string)) <= 0)
-                        symbolic_data	= cat(2,symbolic_data(d,:,:),cur_str);     % ... add it to the set...
-                        pointers         = [pointers ; i];                      % ... and add a new pointer
+                        j = j+1;
+                        symbolic_data(j,:)	= current_string;     % ... add it to the set...
+                        pointers(j)         = i;                      % ... and add a new pointer
                     end
                 end
             end
         end
-        
-    end
     
-end;
+end
 
 % Delete the first element, it was just used to initialize the data structure
-symbolic_data(:,1,:) = [];                                               
-
-%--------------------------------------------------------------------------------------------------------------------------------------------------------
-%----------------Local Functions----------------------Local Functions----------------Local Functions----------------------Local Functions----------------
-%--------------------------------------------------------------------------------------------------------------------------------------------------------
-
-function string = map_to_string(PAA,cutlines)
-
-string = zeros(1,length(PAA));
-
-cut_points = [-Inf cutlines];
-        
-for i = 1 : length(PAA)    
-    string(i) = sum( (cut_points <= PAA(i)), 2 );         % order is now: a = 1, b = 2, c = 3..
-end
+symbolic_data(j+1:end,:) = [];                                               
