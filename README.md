@@ -9,7 +9,7 @@ Algorithm and scripts to implement the pSAX (kernel-based probabilistic SAX) met
 
 
 ## Introduction <a name="introduction"></a>
-The pSAX (Kernel-based Probabilistic SAX) [[1]](#1) method is an extension of the well-known SAX [[2]](#2) (Symbolic Aggregate Approximation) for time-series dimensionality reduction. The main contribution of the method is a SAX-based representation that adapts directly to the underlying probability distribution of the time-series data, thus providing a more accurate symbolic approximation. The accuracy has been measured and compared to the conventional SAX with the (significant for databases performance) Tightness of Lower Bound metric, and also with the Mean Squared Error.
+The pSAX (Kernel-based Probabilistic SAX) [[1]](#1), [[2]](#2) method is an extension of the well-known SAX [[2]](#3) (Symbolic Aggregate Approximation) for time-series dimensionality reduction. The main contribution of the method is a SAX-based representation that adapts directly to the underlying probability distribution of the time-series data, thus providing a more accurate symbolic approximation. The accuracy has been measured and compared to the conventional SAX with the (significant for databases performance) Tightness of Lower Bound metric, and also with the Mean Squared Error.
 
 
 ## Files Description <a name="files"></a>
@@ -35,12 +35,17 @@ A large collection of datasets is available in https://www.cs.ucr.edu/~eamonn/iS
 
 ## References
 <a id="1">[1]</a> 
-K. Bountrogiannis, G. Tzagkarakis and P. Tsakalides, "Data-driven Kernel-based Probabilistic SAX for Time Series Dimensionality Reduction," 2020 28th European Signal Processing Conference (EUSIPCO), Amsterdam, 2021, pp. 2343-2347, doi: 10.23919/Eusipco47968.2020.9287311.
+K. Bountrogiannis, G. Tzagkarakis and P. Tsakalides, "Data-driven Kernel-based Probabilistic SAX for Time Series Dimensionality Reduction," 2020 28th European Signal Processing Conference (EUSIPCO), Amsterdam, pp. 2343-2347, 2021, doi: 10.23919/Eusipco47968.2020.9287311.
 
 <a id="2">[2]</a> 
-J. Lin et al., “Experiencing SAX: A novel symbolic representation of time series”, Data Min. Knowl. Disc., vol. 15, no. 2, pp. 107–144, 2007
+K. Bountrogiannis, G. Tzagkarakis and P. Tsakalides, "Distribution Agnostic Symbolic Representations for Time Series Dimensionality Reduction and Online Anomaly Detection," in IEEE Transactions on Knowledge and Data Engineering, doi: 10.1109/TKDE.2022.3174630.
+
+<a id="3">[3]</a> 
+J. Lin et al., “Experiencing SAX: A novel symbolic representation of time series”, Data Min. Knowl. Disc., vol. 15, no. 2, pp. 107–144, 2007, doi: 10.1007/s10618-007-0064-z
 
 ## License
-**This source code can be used for non-commercial purposes only. Its utilization must acknowledge and cite the following publication:**
+**This source code can be used for non-commercial purposes only. Its utilization must acknowledge and cite the following publications:**
 
-K. Bountrogiannis, G. Tzagkarakis and P. Tsakalides, "Data-driven Kernel-based Probabilistic SAX for Time Series Dimensionality Reduction," 2020 28th European Signal Processing Conference (EUSIPCO), Amsterdam, 2021, pp. 2343-2347, doi: 10.23919/Eusipco47968.2020.9287311. 
+K. Bountrogiannis, G. Tzagkarakis and P. Tsakalides, "Data-driven Kernel-based Probabilistic SAX for Time Series Dimensionality Reduction," 2020 28th European Signal Processing Conference (EUSIPCO), Amsterdam, 2021, pp. 2343-2347, doi: 10.23919/Eusipco47968.2020.9287311.
+
+K. Bountrogiannis, G. Tzagkarakis and P. Tsakalides, "Distribution Agnostic Symbolic Representations for Time Series Dimensionality Reduction and Online Anomaly Detection," in IEEE Transactions on Knowledge and Data Engineering, doi: 10.1109/TKDE.2022.3174630.
