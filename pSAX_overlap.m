@@ -31,7 +31,8 @@ function [str] = pSAX_overlap(data, training_len, win_size, paa_size, alphabet_s
 %           normalize:  (0 or 1). Option to normalize each subsequence prior to
 %                       processing. Normally, this is true (1).
 %           
-% Output:   str:    pSAX symbolic sequence
+% Output:   str:    A set of pSAX symbolic sequences, each for every data
+%                   subsequence
 
 
     % We will first create the training set. Note that we treat our dataset
