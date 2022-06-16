@@ -30,7 +30,7 @@ A large collection of datasets is available in https://www.cs.ucr.edu/~eamonn/iS
 ## Installation and Execution Instructions <a name="execution"></a>
 1. Download the project's source files.
 2. Export as they are to a single folder.
-3. Call pSAX with the appropriate inputs.
+3. Call either pSAX.m or pSAX_overlap.m with the appropriate inputs.
 
 
 ## References
