@@ -9,7 +9,7 @@ MATLAB implementation of the pSAX time-series symbolic representation. Tested wi
 
 
 ## Introduction <a name="introduction"></a>
-The pSAX (Kernel-based Probabilistic SAX) [[1]](#1), [[2]](#2) method is an extension of the well-known SAX [[2]](#3) (Symbolic Aggregate Approximation) for time-series dimensionality reduction. The main contribution of the method is a SAX-based representation that adapts directly to the underlying probability distribution of the time-series data, thus providing a more accurate symbolic approximation. The accuracy has been measured and compared to the conventional SAX with the (significant for databases performance) Tightness of Lower Bound metric, and also with the Mean Squared Error.
+The pSAX (Kernel-based Probabilistic SAX) [[1]](#1), [[2]](#2) method is an extension of the well-known SAX [[3]](#3) (Symbolic Aggregate Approximation) for time-series dimensionality reduction. The main contribution of the method is a SAX-based representation that adapts directly to the underlying probability distribution of the time-series data, thus providing a more accurate symbolic approximation. The accuracy has been measured and compared to the conventional SAX with the (significant for databases performance) Tightness of Lower Bound metric, and also with the Mean Squared Error.
 
 
 ## Files Description <a name="files"></a>
