@@ -63,35 +63,35 @@
 
 function [symbolic_data, pointers] =  timeseries2symbol(data, N, n, cutlines, normalize, NR_opt)
 
-if nargin < 4
-    disp('usage: timeseries2symbol(data, window_len, num_segment, cutlines, [normalize_data_option], [numerosity_reduction_option]');
-    return;
-end
+    if nargin < 4
+        disp('usage: timeseries2symbol(data, window_len, num_segment, cutlines, [normalize_data_option], [numerosity_reduction_option]');
+        return;
+    end
 
-norm_thresh = 0.001;
+    norm_thresh = 0.001;
 
-if nargin < 6
-    NR_opt = 2;
-end
-if nargin < 5
-    normalize = 1;
-end
+    if nargin < 6
+        NR_opt = 2;
+    end
+    if nargin < 5
+        normalize = 1;
+    end
 
-win_size = floor(N/n);                      % win_size is the number of data points on the raw time series that will be mapped to a single symbol
-data_len = max(size(data));
+    win_size = floor(N/n);                      % win_size is the number of data points on the raw time series that will be mapped to a single symbol
+    data_len = max(size(data));
 
-pointers      = [];                         % Initialize pointers
-sliding_win_num = data_len - (N -1);
-symbolic_data = zeros(data_len - (N -1),n);	% Initialize symbolic_data with a void string, it will be removed later
-all_string    = zeros(data_len-N+1,n);	%#ok<*NASGU>
+    pointers      = [];                         % Initialize pointers
+    sliding_win_num = data_len - (N -1);
+    symbolic_data = zeros(data_len - (N -1),n);	% Initialize symbolic_data with a void string, it will be removed later
+    all_string    = zeros(data_len-N+1,n);	%#ok<*NASGU>
 
-% Scan accross the time series, extract subsequences, and convert them to strings
-j = 0;
-for i = 1 : data_len - (N -1)
-        
+    % Scan accross the time series, extract subsequences, and convert them to strings
+    j = 0;
+    for i = 1 : data_len - (N -1)
+
         % Remove the current subsection
         sub_section = data(i:i + N -1); 
-    
+
         % Z-normalize it
         if normalize == 1
             sub_section_mean = mean(sub_section);
@@ -102,9 +102,9 @@ for i = 1 : data_len - (N -1)
                 sub_section = sub_section - sub_section_mean;
             end
         end
-    
+
         PAA = tsPAA(sub_section,n);
-    
+
         current_string = map_to_string(PAA,cutlines); % Convert the PAA to a string
 
         % No numerosity reduction: record everything
@@ -162,8 +162,23 @@ for i = 1 : data_len - (N -1)
                 end
             end
         end
-    
+
+    end
+
+    % Delete the first element, it was just used to initialize the data structure
+    symbolic_data(j+1:end,:) = [];    
 end
 
-% Delete the first element, it was just used to initialize the data structure
-symbolic_data(j+1:end,:) = [];                                               
+%%
+
+function string = map_to_string(PAA,cutlines)
+
+    string = zeros(1,length(PAA));
+
+    cut_points = [-Inf cutlines];
+
+    for i = 1 : length(PAA)    
+        string(i) = sum( (cut_points <= PAA(i)), 2 );         % order is now: a = 1, b = 2, c = 3..
+    end
+
+end
