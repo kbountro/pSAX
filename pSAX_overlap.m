@@ -8,7 +8,7 @@
 %   "Distribution  Agnostic Symbolic Representations for Time Series Dimensionality Reduction and Online Anomaly Detection," 
 %   in IEEE Transactions on Knowledge and Data Engineering, 2022.
 
-function [str] = pSAX(data, training_len, win_size, paa_size, alphabet_size, normalize)
+function [str] = pSAX_overlap(data, training_len, win_size, paa_size, alphabet_size, normalize)
 
 % Inputs:   data: data :)
 %           training_len:   the number of samples used for density estimation
