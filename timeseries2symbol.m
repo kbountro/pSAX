@@ -89,7 +89,7 @@ all_string    = zeros(data_len-N+1,n);	%#ok<*NASGU>
 j = 0;
 for i = 1 : data_len - (N -1)
         
-        % Remove the current subsection of the current dimension
+        % Remove the current subsection
         sub_section = data(i:i + N -1); 
     
         % Z-normalize it
