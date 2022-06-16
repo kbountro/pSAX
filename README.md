@@ -1,5 +1,5 @@
 # Kernel-based probabilistic SAX (pSAX)
-MATLAB implementation of the pSAX time-series symbolic representation. Tested with MATLAB R2019a.
+MATLAB implementation of the pSAX time-series symbolic representation. Tested with MATLAB versions R2018b and R2019a.
 
 # Table of Contents
 1. [Introduction](#introduction)
@@ -24,7 +24,7 @@ This project consists of the following components:
 
 
 ## Datasets <a name="datasets"></a>
-A large collection of datasets is available in https://www.cs.ucr.edu/~eamonn/iSAX/iSAX.html
+A large collection of datasets is available at https://www.cs.ucr.edu/~eamonn/iSAX/iSAX.html
 
 
 ## Installation and Execution Instructions <a name="execution"></a>
